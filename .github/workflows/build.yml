@@ -10,10 +10,6 @@ on:
 jobs:
   build:
 
-    strategy:
-      matrix:
-        configuration: [Debug, Release]
-
     runs-on: windows-latest
 
     steps:
@@ -63,7 +59,6 @@ jobs:
 
     - name: Build with Cake
       env:
-        Configuration: ${{ matrix.configuration }}
         azure-key-vault-url: ${{ secrets.AZURE_KEY_VAULT_URL }}
         azure-key-vault-client-id: ${{ secrets.AZURE_KEY_VAULT_CLIENT_ID }}
         azure-key-vault-client-secret: ${{ secrets.AZURE_KEY_VAULT_CLIENT_SECRET }}
@@ -73,8 +68,6 @@ jobs:
         cake-version: 0.38.5
         cake-bootstrap: true
         target: Default
-        arguments: |
-          configuration: $env:Configuration
 
     - name: End analyze
       env:
