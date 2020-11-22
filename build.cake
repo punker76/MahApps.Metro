@@ -3,10 +3,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #module nuget:?package=Cake.DotNetTool.Module
-#tool "dotnet:?package=NuGetKeyVaultSignTool&version=1.2.18"
+#tool "dotnet:?package=NuGetKeyVaultSignTool&version=1.2.28"
 #tool "dotnet:?package=AzureSignTool&version=2.0.17"
 
-#tool GitVersion.CommandLine&version=5.3.7
+#tool GitVersion.CommandLine&version=5.5.1
 #tool gitreleasemanager
 #tool xunit.runner.console
 #tool vswhere
@@ -109,7 +109,7 @@ Task("Build")
         Verbosity = verbosity
         , ToolPath = msBuildPathExe
         , Configuration = configuration
-        , ArgumentCustomization = args => args.Append("/m").Append("/nr:false") // The /nr switch tells msbuild to quite once it�s done
+        , ArgumentCustomization = args => args.Append("/m").Append("/nr:false") // The /nr switch tells msbuild to quite once it’s done
         , BinaryLogger = new MSBuildBinaryLogSettings() { Enabled = isLocal }
     };
     MSBuild(solution, msBuildSettings
@@ -119,7 +119,7 @@ Task("Build")
             .WithProperty("AssemblyVersion", gitVersion.AssemblySemVer)
             .WithProperty("FileVersion", gitVersion.AssemblySemFileVer)
             .WithProperty("InformationalVersion", gitVersion.InformationalVersion)
-            .WithProperty("ContinuousIntegrationBuild", isReleaseBranch ? "true" : "false")
+            .WithProperty("ContinuousIntegrationBuild", isReleaseBranch || isLocal ? "true" : "false")
             );
 });
 
